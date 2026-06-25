@@ -17,7 +17,7 @@ along with this program. If not, see<http://www.gnu.org/licenses/>.
 using System;
 using System.Collections.Generic;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Data
+namespace Jellyfin.Plugin.MetadataQueryLogger.Data
 {
     public interface IActivityRepository : IDisposable
     {
@@ -28,8 +28,8 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
         int ImportRawData(string data);
         string ExportRawData();
         void DeleteOldData(DateTime? del_before);
-        void AddPlaybackAction(PlaybackInfo play_info);
-        void UpdatePlaybackAction(PlaybackInfo play_info);
+        void AddPlaybackAction(MetadataQueryInfo play_info);
+        void UpdatePlaybackAction(MetadataQueryInfo play_info);
         List<Dictionary<string, string>> GetUsageForUser(string date, string user_id, string[] filter, float timezoneOffset);
         Dictionary<String, Dictionary<string, int>> GetUsageForDays(int days, DateTime end_date, string[] types, string? data_type, float timezoneOffset);
         SortedDictionary<string, int> GetHourlyUsageReport(int days, DateTime end_date, string[] types, float timezoneOffset);

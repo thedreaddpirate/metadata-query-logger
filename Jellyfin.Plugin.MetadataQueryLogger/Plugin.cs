@@ -20,9 +20,9 @@ using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
-using Jellyfin.Plugin.PlaybackReporting.Configuration;
+using Jellyfin.Plugin.MetadataQueryLogger.Configuration;
 
-namespace Jellyfin.Plugin.PlaybackReporting
+namespace Jellyfin.Plugin.MetadataQueryLogger
 {
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {

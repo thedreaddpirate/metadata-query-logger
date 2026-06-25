@@ -1,16 +1,15 @@
 ---
-name: "Playback Reporting"
+name: "Metadata Query Logging"
 guid: "5c534381-91a3-43cb-907a-35aa02eb9d2c"
 imageUrl: "https://repo.jellyfin.org/releases/plugin/images/jellyfin-plugin-playbackreporting.png"
-version: 17
-targetAbi: "10.11.0.0"
-framework: net9.0
-owner: "jellyfin"
-overview: "Collect and show user play statistics"
-description: "Collect and show user play statistics"
+version: 1
+targetAbi: "12.0.0.0"
+framework: net10.0
+owner: "thedreaddpirate"
+overview: "Logs queries to online metadata providers"
+description: "Logs queries to online metadata providers"
 category: "Administration"
 artifacts:
-  - "Jellyfin.Plugin.PlaybackReporting.dll"
-  - "SQLitePCL.pretty.dll"
+  - "Jellyfin.Plugin.MetadataQueryLogger.dll"
 changelog: |-
-  - Jellyfin 10.11 support (#108) @crobibero
+  - Initial commit

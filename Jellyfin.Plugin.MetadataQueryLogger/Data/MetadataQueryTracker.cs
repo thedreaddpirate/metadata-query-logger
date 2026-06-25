@@ -19,19 +19,19 @@ using System.Collections.Generic;
 using MediaBrowser.Controller.Library;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Data
+namespace Jellyfin.Plugin.MetadataQueryLogger.Data
 {
-    public class PlaybackTracker
+    public class MetadataQuery
     {
         private bool IsPaused;
-        public PlaybackInfo? TrackedPlaybackInfo { set; get; }
-        private readonly ILogger<PlaybackTracker> _logger;
+        public MetadataQueryInfo? TrackedMetadataQueryInfo { set; get; }
+        private readonly ILogger<MetadataQueryTracker> _logger;
         private readonly List<KeyValuePair<DateTime, ActionType>> event_tracking = new List<KeyValuePair<DateTime, ActionType>>();
         public DateTime LastUpdated = DateTime.MinValue;
 
         private enum ActionType { START, STOP, PAUSE, UNPAUSE, NONE }
 
-        public PlaybackTracker(ILogger<PlaybackTracker> logger)
+        public MetadataQueryTracker(ILogger<MetadataQueryTracker> logger)
         {
             _logger = logger;
         }
@@ -67,7 +67,7 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
             IsPaused = e.IsPaused;
             KeyValuePair<DateTime, ActionType> play_event = new KeyValuePair<DateTime, ActionType>(DateTime.Now, ActionType.START);
             event_tracking.Add(play_event);
-            _logger.LogInformation("PlaybackTracker : Adding Start Event : {PlayEventKey}", play_event.Key);
+            _logger.LogInformation("MetadataQueryTracker : Adding Start Event : {PlayEventKey}", play_event.Key);
         }
 
         public List<string> ProcessStop(PlaybackStopEventArgs e)
@@ -75,7 +75,7 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
             IsPaused = e.IsPaused;
             KeyValuePair<DateTime, ActionType> play_event = new KeyValuePair<DateTime, ActionType>(DateTime.Now, ActionType.STOP);
             event_tracking.Add(play_event);
-            _logger.LogInformation("PlaybackTracker : Adding Stop Event : {PlayEventKey}", play_event.Key);
+            _logger.LogInformation("MetadataQueryTracker : Adding Stop Event : {PlayEventKey}", play_event.Key);
 
             List<string> event_log = new List<string>();
             CalculateDuration(event_log);
@@ -86,7 +86,7 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
         {
             int duration = 0;
 
-            if (TrackedPlaybackInfo == null)
+            if (TrackedMetadataQueryInfo == null)
             {
                 return;
             }
@@ -132,7 +132,7 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
             }
 
             eventLog.Add("Total(" + duration + ")");
-            TrackedPlaybackInfo.PlaybackDuration = duration;
+            TrackedMetadataQueryInfo.PlaybackDuration = duration;
         }
     }
 }

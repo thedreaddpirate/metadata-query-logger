@@ -17,18 +17,18 @@ along with this program. If not, see<http://www.gnu.org/licenses/>.
 using System.Collections.Generic;
 using MediaBrowser.Common.Configuration;
 
-namespace Jellyfin.Plugin.PlaybackReporting
+namespace Jellyfin.Plugin.MetadataQueryLogger
 {
     public static class ConfigurationExtension
     {
-        public const string PlaybackReportingOptionsKey = "playback_reporting";
+        public const string MetadataQueryLoggerOptionsKey = "playback_reporting";
         public static ReportPlaybackOptions GetReportPlaybackOptions(this IConfigurationManager manager)
         {
-            return manager.GetConfiguration<ReportPlaybackOptions>(PlaybackReportingOptionsKey);
+            return manager.GetConfiguration<ReportPlaybackOptions>(MetadataQueryLoggerOptionsKey);
         }
         public static void SaveReportPlaybackOptions(this IConfigurationManager manager, ReportPlaybackOptions options)
         {
-            manager.SaveConfiguration(PlaybackReportingOptionsKey, options);
+            manager.SaveConfiguration(MetadataQueryLoggerOptionsKey, options);
         }
     }
 

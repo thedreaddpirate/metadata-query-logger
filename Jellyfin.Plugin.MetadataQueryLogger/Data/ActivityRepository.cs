@@ -22,7 +22,7 @@ using MediaBrowser.Model.IO;
 using Microsoft.Extensions.Logging;
 using SQLitePCL.pretty;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Data
+namespace Jellyfin.Plugin.MetadataQueryLogger.Data
 {
     public class ActivityRepository : BaseSqliteRepository, IActivityRepository
     {
@@ -354,7 +354,7 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
             }
         }
 
-        public void AddPlaybackAction(PlaybackInfo playInfo)
+        public void AddPlaybackAction(MetadataQueryInfo playInfo)
         {
             string sql_add = "insert into PlaybackActivity " +
                 "(DateCreated, UserId, ItemId, ItemType, ItemName, PlaybackMethod, ClientName, DeviceName, PlayDuration) " +
@@ -381,7 +381,7 @@ namespace Jellyfin.Plugin.PlaybackReporting.Data
             }
         }
 
-        public void UpdatePlaybackAction(PlaybackInfo playInfo)
+        public void UpdatePlaybackAction(MetadataQueryInfo playInfo)
         {
             string sql_add = "update PlaybackActivity set PlayDuration = @PlayDuration where DateCreated = @DateCreated and UserId = @UserId and ItemId = @ItemId";
             using (WriteLock.Write())

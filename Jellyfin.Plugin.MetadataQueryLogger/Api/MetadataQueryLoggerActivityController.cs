@@ -20,7 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using Jellyfin.Database.Implementations.Entities;
-using Jellyfin.Plugin.PlaybackReporting.Data;
+using Jellyfin.Plugin.MetadataQueryLogger.Data;
 using MediaBrowser.Common.Api;
 using MediaBrowser.Controller.Configuration;
 using MediaBrowser.Controller.Library;
@@ -30,15 +30,15 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Api
+namespace Jellyfin.Plugin.MetadataQueryLogger.Api
 {
     [ApiController]
     [Authorize(Policy = Policies.RequiresElevation)]
     [Route("user_usage_stats")]
     [Produces(MediaTypeNames.Application.Json)]
-    public class PlaybackReportingActivityController : ControllerBase
+    public class MetadataQueryLoggerActivityController : ControllerBase
     {
-        private readonly ILogger<PlaybackReportingActivityController> _logger;
+        private readonly ILogger<MetadataQueryLoggerActivityController> _logger;
         private readonly ILoggerFactory _loggerFactory;
         private readonly IFileSystem _fileSystem;
         private readonly IServerConfigurationManager _config;
@@ -46,19 +46,19 @@ namespace Jellyfin.Plugin.PlaybackReporting.Api
 
         private readonly IActivityRepository _repository;
 
-        public PlaybackReportingActivityController(
+        public MetadataQueryLoggerActivityController(
             ILoggerFactory loggerFactory,
             IFileSystem fileSystem,
             IServerConfigurationManager config,
             IUserManager userManager)
         {
             _loggerFactory = loggerFactory;
-            _logger = loggerFactory.CreateLogger<PlaybackReportingActivityController>();
+            _logger = loggerFactory.CreateLogger<MetadataQueryLoggerActivityController>();
             _fileSystem = fileSystem;
             _config = config;
             _userManager = userManager;
 
-            _logger.LogInformation("PlaybackReportingActivityController Loaded");
+            _logger.LogInformation("MetadataQueryLoggerActivityController Loaded");
             var repo = new ActivityRepository(loggerFactory.CreateLogger<ActivityRepository>(), _config.ApplicationPaths, _fileSystem);
             //repo.Initialize();
             _repository = repo;

@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using SQLitePCL.pretty;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Data
+namespace Jellyfin.Plugin.MetadataQueryLogger.Data
 {
     public class ManagedConnection : IDisposable
     {

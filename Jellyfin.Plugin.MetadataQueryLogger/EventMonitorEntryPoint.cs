@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Jellyfin.Plugin.PlaybackReporting.Data;
+using Jellyfin.Plugin.MetadataQueryLogger.Data;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Configuration;
 using MediaBrowser.Controller.Entities;
@@ -32,7 +32,7 @@ using MediaBrowser.Model.Serialization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.PlaybackReporting
+namespace Jellyfin.Plugin.MetadataQueryLogger
 {
     public class EventMonitorEntryPoint : IHostedService, IDisposable
     {
@@ -41,7 +41,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
         private readonly ILogger<EventMonitorEntryPoint> _logger;
         private readonly ILoggerFactory _loggerFactory;
         private readonly IFileSystem _fileSystem;
-        private readonly Dictionary<string, PlaybackTracker>? playback_trackers = null;
+        private readonly Dictionary<string, MetadataQueryTracker>? playback_trackers = null;
         private IActivityRepository? _repository;
 
         public EventMonitorEntryPoint(
@@ -55,7 +55,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
             _sessionManager = sessionManager;
             _config = config;
             _fileSystem = fileSystem;
-            playback_trackers = new Dictionary<string, PlaybackTracker>();
+            playback_trackers = new Dictionary<string, MetadataQueryTracker>();
         }
 
         private void SessionManager_PlaybackProgress(object? sender, PlaybackProgressEventArgs e)
@@ -65,7 +65,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
             {
                 try
                 {
-                    PlaybackTracker tracker = playback_trackers[key];
+                    MetadataQueryTracker tracker = playback_trackers[key];
                     DateTime now = DateTime.Now;
                     if (now.Subtract(tracker.LastUpdated).TotalSeconds > 20) // update every 20 seconds
                     {
@@ -76,9 +76,9 @@ namespace Jellyfin.Plugin.PlaybackReporting
                         {
                             _logger.LogDebug("ProcessProgress : {Events}", string.Join("", event_log));
                         }
-                        if (tracker.TrackedPlaybackInfo != null)
+                        if (tracker.TrackedMetadataQueryInfo != null)
                         {
-                            _repository?.UpdatePlaybackAction(tracker.TrackedPlaybackInfo);
+                            _repository?.UpdatePlaybackAction(tracker.TrackedMetadataQueryInfo);
                         }
                     }
                 }
@@ -100,7 +100,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
             if (playback_trackers != null && playback_trackers.ContainsKey(key))
             {
                 _logger.LogInformation("Playback stop tracker found, processing stop : {Key}", key);
-                PlaybackTracker tracker = playback_trackers[key];
+                MetadataQueryTracker tracker = playback_trackers[key];
                 List<string> event_log = tracker.ProcessStop(e);
                 if (event_log.Count > 0)
                 {
@@ -108,14 +108,14 @@ namespace Jellyfin.Plugin.PlaybackReporting
                 }
 
                 // if playback duration was long enough save the action
-                if (tracker.TrackedPlaybackInfo != null)
+                if (tracker.TrackedMetadataQueryInfo != null)
                 {
                     _logger.LogInformation("Saving playback tracking activity in DB");
-                    _repository?.UpdatePlaybackAction(tracker.TrackedPlaybackInfo);
+                    _repository?.UpdatePlaybackAction(tracker.TrackedMetadataQueryInfo);
                 }
                 else
                 {
-                    _logger.LogInformation("Playback stop but TrackedPlaybackInfo not found! not storing activity in DB");
+                    _logger.LogInformation("Playback stop but TrackedMetadataQueryInfo not found! not storing activity in DB");
                 }
 
                 // remove the playback tracer from the map as we no longer need it.
@@ -150,8 +150,8 @@ namespace Jellyfin.Plugin.PlaybackReporting
             {
                 _logger.LogInformation("Existing tracker found! : " + key);
 
-                PlaybackTracker track = playback_trackers[key];
-                if (track.TrackedPlaybackInfo != null)
+                MetadataQueryTracker track = playback_trackers[key];
+                if (track.TrackedMetadataQueryInfo != null)
                 {
                     _logger.LogInformation("Saving existing playback tracking activity in DB");
                     List<string> event_log = new List<string>();
@@ -160,7 +160,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
                     {
                         _logger.LogDebug("CalculateDuration : {Events}", string.Join("", event_log));
                     }
-                    _repository?.UpdatePlaybackAction(track.TrackedPlaybackInfo);
+                    _repository?.UpdatePlaybackAction(track.TrackedMetadataQueryInfo);
                 }
 
                 _logger.LogInformation("Removing existing tracker : " + key);
@@ -168,7 +168,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
             }
 
             _logger.LogInformation("Adding playback tracker : " + key);
-            PlaybackTracker tracker = new PlaybackTracker(_loggerFactory.CreateLogger<PlaybackTracker>());
+            MetadataQueryTracker tracker = new MetadataQueryTracker(_loggerFactory.CreateLogger<MetadataQueryTracker>());
             tracker.ProcessStart(e);
             playback_trackers?.Add(key, tracker);
 
@@ -246,7 +246,7 @@ namespace Jellyfin.Plugin.PlaybackReporting
                     _logger.LogInformation("StartPlaybackTimer : ItemId               = {ItemId}", item_id);
                     _logger.LogInformation("StartPlaybackTimer : ItemType             = {ItemType}", item_type);
 
-                    PlaybackInfo play_info = new PlaybackInfo(
+                    MetadataQueryInfo play_info = new MetadataQueryInfo(
                         id: Guid.NewGuid().ToString("N"),
                         date: DateTime.Now,
                         clientName: e.ClientName,
@@ -267,11 +267,11 @@ namespace Jellyfin.Plugin.PlaybackReporting
                         if (playback_trackers != null && playback_trackers.ContainsKey(key))
                         {
                             _logger.LogInformation("Playback tracker found, adding playback info : {Key}", key);
-                            PlaybackTracker tracker = playback_trackers[key];
-                            tracker.TrackedPlaybackInfo = play_info;
+                            MetadataQueryTracker tracker = playback_trackers[key];
+                            tracker.TrackedMetadataQueryInfo = play_info;
 
                             _logger.LogInformation("Saving playback tracking activity in DB");
-                            _repository?.AddPlaybackAction(tracker.TrackedPlaybackInfo);
+                            _repository?.AddPlaybackAction(tracker.TrackedMetadataQueryInfo);
                         }
                         else
                         {

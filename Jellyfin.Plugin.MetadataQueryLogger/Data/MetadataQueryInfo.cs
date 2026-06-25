@@ -16,11 +16,11 @@ along with this program. If not, see<http://www.gnu.org/licenses/>.
 
 using System;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Data
+namespace Jellyfin.Plugin.MetadataQueryLogger.Data
 {
-    public class PlaybackInfo
+    public class MetadataQueryInfo
     {
-        public PlaybackInfo(
+        public MetadataQueryInfo(
             string id,
             DateTime date,
             string clientName,

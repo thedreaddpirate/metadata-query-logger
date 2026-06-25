@@ -2,7 +2,7 @@ using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Jellyfin.Plugin.PlaybackReporting;
+namespace Jellyfin.Plugin.MetadataQueryLogger;
 
 public class PluginServiceRegistrator : IPluginServiceRegistrator
 {

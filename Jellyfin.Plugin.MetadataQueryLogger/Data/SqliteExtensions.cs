@@ -21,7 +21,7 @@ using System.IO;
 using MediaBrowser.Model.Serialization;
 using SQLitePCL.pretty;
 
-namespace Jellyfin.Plugin.PlaybackReporting.Data
+namespace Jellyfin.Plugin.MetadataQueryLogger.Data
 {
     // TODO yet another file that is COPIED from core
     public static class SqliteExtensions
