@@ -1,40 +1,36 @@
-<h1 align="center">Jellyfin Playback Reporting Plugin</h1>
-<h3 align="center">Part of the <a href="https://jellyfin.org">Jellyfin Project</a></h3>
+<h1 align="center">Metadata Query Logger Plugin</h1>
 
 <p align="center">
 <img alt="Plugin Banner" src="https://raw.githubusercontent.com/jellyfin/jellyfin-ux/master/plugins/SVG/jellyfin-plugin-playbackreporting.svg?sanitize=true"/>
 <br/>
 <br/>
-<a href="https://github.com/jellyfin/jellyfin-plugin-playbackreporting/actions?query=workflow%3A%22Test+Build+Plugin%22">
-<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/jellyfin/jellyfin-plugin-playbackreporting/Test%20Build%20Plugin.svg">
+<a href="https://github.com/thedreaddpirate/metadata-query-logger/actions?query=workflow%3A%22Test+Build+Plugin%22">
+<img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/thedreaddpirate/metadata-query-logger/Test%20Build%20Plugin.svg">
 </a>
-<a href="https://github.com/jellyfin/jellyfin-plugin-playbackreporting">
+<a href="https://github.com/thedreaddpirate/metadata-query-logger">
 <img alt="GPLv3 License" src="https://img.shields.io/github/license/jellyfin/jellyfin-plugin-playbackreporting.svg"/>
 </a>
-<a href="https://github.com/jellyfin/jellyfin-plugin-playbackreporting/releases">
+<a href="https://github.com/thedreaddpirate/metadata-query-logger/releases">
 <img alt="Current Release" src="https://img.shields.io/github/release/jellyfin/jellyfin-plugin-playbackreporting.svg"/>
 </a>
 </p>
 
 ## About
 
-This plugin enables the collection and visualization of user and media activity on your server.
-This information can be viewed as a multitude of different graphs, and can also be queried straight from the Jellyfin database.
+WIP - A plugin that will log metadata queries for troubleshooting purposes.
 
 ## Installation
 
-[See the official documentation for install instructions](https://jellyfin.org/docs/general/server/plugins/index.html#installing).
-
 ## Build
 
-1. To build this plugin you will need [.Net 8.x](https://dotnet.microsoft.com/download/dotnet/8.0).
+1. To build this plugin you will need [.Net 10.x](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 2. Build plugin with following command
   ```
   dotnet publish --configuration Release --output bin
   ```
 
-3. Place the dll-file in the `plugins/playbackreporting` folder (you might need to create the folders) of your JF install
+3. Place the dll-file in the `plugins/metadataquerylogger` folder (you might need to create the folders) of your JF install
 
 ## Releasing
 
