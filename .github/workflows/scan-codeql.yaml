@@ -15,6 +15,6 @@ on:
 
 jobs:
   call:
-    uses: jellyfin/jellyfin-meta-plugins/.github/workflows/scan-codeql.yaml@master
+    uses: thedreaddpirate/metadata-query-logger/.github/workflows/scan-codeql.yaml@master
     with:
       repository-name: thedreaddpirate/metadata-query-logger

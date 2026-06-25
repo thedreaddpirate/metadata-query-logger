@@ -8,7 +8,7 @@ on:
 
 jobs:
   call:
-    uses: jellyfin/jellyfin-meta-plugins/.github/workflows/publish-unstable.yaml@master
+    uses: thedreaddpirate/metadata-query-logger/.github/workflows/publish-unstable.yaml@master
     secrets:
       deploy-host: ${{ secrets.REPO_HOST }}
       deploy-user: ${{ secrets.REPO_USER }}
